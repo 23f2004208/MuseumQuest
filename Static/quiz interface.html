@@ -57,17 +57,20 @@
         <script>
             function selectOption(button) {
                 // Remove selection from all buttons
-                const buttons = document.querySelectorAll('.btn-outline-primary');
+                const buttons = document.querySelectorAll('.btn');
                 buttons.forEach(btn => {
-                    btn.classList.remove('active');
-                    btn.classList.remove('btn-primary');
-                    btn.classList.add('btn-outline-primary');
+                    if (btn.onclick && btn.onclick.toString().includes('selectOption')) {
+                        btn.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                        btn.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+                        btn.style.transform = 'scale(1)';
+                    }
                 });
                 
-                // Add selection to clicked button
-                button.classList.remove('btn-outline-primary');
-                button.classList.add('btn-primary');
-                button.classList.add('active');
+                // Add selection to clicked button with highlighting
+                button.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                button.style.border = '2px solid rgba(255, 255, 255, 0.9)';
+                button.style.transform = 'scale(1.02)';
+                button.style.transition = 'all 0.3s ease';
             }
 
             function previousQuestion() {
