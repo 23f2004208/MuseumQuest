@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import QuizPage from './pages/QuizPage';
 import ChatbotPage from './pages/ChatbotPage';
+import Leaderboard from './pages/Leaderboard';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/passport/:userId" element={<PassportPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/quiz/:id" element={<QuizPage />} />
       <Route path="/chatbot/:id" element={<ChatbotPage />} />
     </Routes>

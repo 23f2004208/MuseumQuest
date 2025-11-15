@@ -7,6 +7,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { awardStamp } from '../services/firestore';
 import XPNotification from '../components/XPNotification';
 import Navigation from '../components/Navigation';
+import Navigation from '../components/Navigation';
 // Import images for Vite
 import louvreImg from '../data/images/louvre.webp';
 import smithsonianImg from '../data/images/smithsonian.jpg';
@@ -100,7 +101,8 @@ function MuseumDetail() {
     if (!museum) {
         return (
             <div className="museum-detail-container">
-                <div className="card museum-card">
+                
+                <div className="card museum-card" style={{ marginLeft: '20rem' }}>
                     <div className="card-body">
                         <h5 className="card-title">Museum not found</h5>
                         <button onClick={() => navigate('/')} className="btn btn-primary">
@@ -114,7 +116,6 @@ function MuseumDetail() {
 
     return (
         <div className="flex h-screen w-screen overflow-hidden">
-            <Navigation />
             <div
                 className="museum-detail-container flex-1 ml-80"
                 style={{
@@ -137,6 +138,7 @@ function MuseumDetail() {
                         onComplete={() => setXpNotification(null)}
                     />
                 )}
+                <Navigation />
                 <div className="card" style={{
                     width: '50rem',
                     backgroundColor: 'rgba(0, 0, 0, 0.736)',
