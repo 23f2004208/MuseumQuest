@@ -42,7 +42,7 @@ function getImageUrl(imagePath) {
     return imageMap[imagePath] || imagePath;
 }
 
-function MuseumDetail() {
+function ChatbotPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const museum = museums.find(m => m.id === parseInt(id));
@@ -147,7 +147,7 @@ function MuseumDetail() {
                         textAlign: 'justify',
                     }}>
                         <h5 className="card-title">{museum.name}, {museum.city}, {museum.country}</h5>
-                        <p className="card-text">{museum.description}</p>
+                        <p className="card-text">ADD CHATBOT CONTENT HERE</p>
                         <div className="flex flex-row justify-evenly w-full gap-4 mt-4">
                             <a href="#" className="btn btn-primary" onClick={(e) => {
                                 e.preventDefault();
@@ -157,9 +157,9 @@ function MuseumDetail() {
                             </a>
                             <a href="#" className="btn btn-primary" onClick={(e) => {
                                 e.preventDefault();
-                                navigate(`/chatbot/${museum.id}`);
+                                navigate(`/museum/${museum.id}`);
                             }}>
-                                Ask Chatbot
+                                Back to Museum
                             </a>
                         </div>
                     </div>
@@ -169,4 +169,4 @@ function MuseumDetail() {
     );
 }
 
-export default MuseumDetail;
+export default ChatbotPage;
