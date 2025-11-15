@@ -77,3 +77,15 @@ p {
   margin-bottom: 0.5rem;
   line-height: 1.6;
 }
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

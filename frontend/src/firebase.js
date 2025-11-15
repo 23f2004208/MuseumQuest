@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -16,6 +17,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Initialize Analytics (only in browser environment)
 let analytics = null;
@@ -33,4 +35,4 @@ export function protectPage() {
 }
 
 // Export Firebase services
-export { app, auth, analytics };
+export { app, auth, analytics, db };
