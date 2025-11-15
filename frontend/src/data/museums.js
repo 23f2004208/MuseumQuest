@@ -9,7 +9,7 @@ export const museums = [
         country: "France",
         yearFounded: 1793,
         description: "The world's largest art museum and historic monument in Paris, housing masterpieces including the Mona Lisa and Venus de Milo.",
-        image: "https://commons.wikimedia.org/wiki/File:Paris_-_Louvre_7499.jpg"  // public-domain image :contentReference[oaicite:0]{index=0}
+        image: "https://commons.wikimedia.org/wiki/File:Paris_-_Louvre_7499.jpg"
     },
     {
         id: 2,
