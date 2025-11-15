@@ -6,6 +6,40 @@ import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { awardStamp } from '../services/firestore';
 import XPNotification from '../components/XPNotification';
+// Import images for Vite
+import louvreImg from '../data/images/louvre.webp';
+import smithsonianImg from '../data/images/smithsonian.jpg';
+import vaticanImg from '../data/images/vaticanmuseums.webp';
+import metropolitanImg from '../data/images/metropolitan.jpg';
+import britishMuseumImg from '../data/images/britishmuseum.avif';
+import tokyoNationalMuseumImg from '../data/images/tokyo.jpg';
+import egyptianMuseumImg from '../data/images/egypt.webp';
+import stateHermitageMuseumImg from '../data/images/statehermitage.webp';
+import apartheidMuseumImg from '../data/images/apartheidmuseum.jpg';
+import nationalMuseumOfChinaImg from '../data/images/nationalmuseumofchina.jpg';
+
+// Image mapping for path resolution
+const imageMap = {
+    './images/louvre.webp': louvreImg,
+    './images/smithsonian.jpg': smithsonianImg,
+    './images/vaticanmuseums.webp': vaticanImg,
+    './images/metropolitan.jpg': metropolitanImg,
+    './images/britishmuseum.avif': britishMuseumImg,
+    './images/tokyo.jpg': tokyoNationalMuseumImg,
+    './images/egypt.webp': egyptianMuseumImg,
+    './images/statehermitage.webp': stateHermitageMuseumImg,
+    './images/apartheidmuseum.jpg': apartheidMuseumImg,
+    './images/nationalmuseumofchina.jpg': nationalMuseumOfChinaImg,
+};
+
+// Helper function to resolve image paths for Vite
+function getImageUrl(imagePath) {
+    if (imagePath.startsWith('http')) {
+        return imagePath; // Already a full URL
+    }
+    // Return the imported image URL from the mapping
+    return imageMap[imagePath] || imagePath;
+}
 
 function MuseumDetail() {
     const { id } = useParams();
@@ -86,7 +120,7 @@ function MuseumDetail() {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                backgroundImage: `url(${museum.image})`,
+                backgroundImage: `url(${getImageUrl(museum.image)})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
