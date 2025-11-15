@@ -461,7 +461,17 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.json({ message: 'API Working', endpoints: ['/api/museums', '/api/ai/ask', '/api/wolfram/context/:year'] });
+    res.json({ message: 'API Working', endpoints: [
+        '/api/museums',
+        '/api/quiz/:museumId',
+        '/api/quiz/check',
+        '/api/passport/:userId',
+        '/api/leaderboard',
+        '/api/ai/ask',
+        '/api/models/list',
+        '/api/wolfram/context/:year',
+        '/api/health'
+    ].join('\n') });
 });
 
 const PORT = 5000;
