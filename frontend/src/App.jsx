@@ -5,6 +5,7 @@ import './App.css';
 import PassportPage from './pages/PassportPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Leaderboard from './pages/Leaderboard';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/passport/:userId" element={<PassportPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/leaderboard" element={<Leaderboard />} />
     </Routes>
   );
 }

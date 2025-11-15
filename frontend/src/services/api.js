@@ -30,3 +30,10 @@ export const wolframAPI = {
         return response.data;
     }
 };
+
+export const leaderboardAPI = {
+    getLeaderboard: async () => {
+        const response = await axios.get(`${API_BASE}/leaderboard`);
+        return response.data.leaderboard || [];
+    }
+};

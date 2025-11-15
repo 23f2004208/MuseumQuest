@@ -25,6 +25,12 @@ function Navigation() {
                 >
                     👤 Profile
                 </button>
+                <button
+                    onClick={() => navigate('/leaderboard')}
+                    className="text-white text-xl font-medium text-left py-3 px-4 rounded-lg transition-all duration-300 hover:bg-white/10 active:scale-95"
+                >
+                    🏆 Leaderboard
+                </button>
             </div>
             <div className="mt-auto">
                 <p className="text-white/40 text-sm">Explore museums worldwide</p>
