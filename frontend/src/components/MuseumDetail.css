@@ -1,0 +1,16 @@
+.museum-detail-container {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.museum-card {
+    width: 50rem;
+    background-color: rgba(0, 0, 0, 0.736);
+    color: rgb(205, 205, 205);
+}

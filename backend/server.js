@@ -1,8 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const axios = require('axios');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
+import { museums } from '../frontend/src/data/museums.js';
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -11,20 +14,6 @@ app.use(express.json());
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
-
-// Museums data - ALL 10 MUSEUMS
-const museums = [
-    { id: 1, name: "The Louvre", lat: 48.8606, lng: 2.3376, country: "France", yearFounded: 1793, description: "The world's largest art museum in Paris." },
-    { id: 2, name: "British Museum", lat: 51.5194, lng: -0.1270, country: "United Kingdom", yearFounded: 1753, description: "Museum of human history in London." },
-    { id: 3, name: "Metropolitan Museum of Art", lat: 40.7794, lng: -73.9632, country: "United States", yearFounded: 1870, description: "Largest art museum in the United States." },
-    { id: 4, name: "Vatican Museums", lat: 41.9065, lng: 12.4536, country: "Vatican City", yearFounded: 1506, description: "Art and Christian museums in Vatican City." },
-    { id: 5, name: "Rijksmuseum", lat: 52.3600, lng: 4.8852, country: "Netherlands", yearFounded: 1800, description: "Dutch national museum in Amsterdam." },
-    { id: 6, name: "National Museum of China", lat: 39.9042, lng: 116.3974, country: "China", yearFounded: 2003, description: "Museum of Chinese art in Beijing." },
-    { id: 7, name: "State Hermitage Museum", lat: 59.9398, lng: 30.3146, country: "Russia", yearFounded: 1764, description: "Art museum in Saint Petersburg." },
-    { id: 8, name: "Museo Nacional del Prado", lat: 40.4138, lng: -3.6921, country: "Spain", yearFounded: 1819, description: "Spain's main art museum in Madrid." },
-    { id: 9, name: "Egyptian Museum", lat: 30.0478, lng: 31.2336, country: "Egypt", yearFounded: 1902, description: "Ancient Egyptian antiquities in Cairo." },
-    { id: 10, name: "Smithsonian Natural History", lat: 38.8913, lng: -77.0261, country: "United States", yearFounded: 1910, description: "Natural history museum in D.C." }
-];
 
 // MUSEUMS ENDPOINTS
 app.get('/api/museums', (req, res) => {
