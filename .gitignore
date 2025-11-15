@@ -10,9 +10,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+node_modules/
+dist/
+dist-ssr/
 *.local
 
 # Editor directories and files
@@ -25,3 +25,24 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables
+.env
+*/.env
+
+# Firebase
+firebase-admin-sdk.json
+backend/firebase-admin-sdk.json
+
+# Build outputs
+build/
+frontend/dist/
+frontend/build/
+
+# OS files
+.DS_Store
+Thumbs.db
