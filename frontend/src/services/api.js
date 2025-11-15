@@ -14,12 +14,11 @@ export const museumsAPI = {
 };
 
 export const aiAPI = {
-    askQuestion: async (museumName, museumDescription, question, conversationHistory = []) => {
+    askQuestion: async (museumName, museumDescription, question) => {
         const response = await axios.post(`${API_BASE}/ai/ask`, {
             museumName,
             museumDescription,
-            question,
-            conversationHistory
+            question
         });
         return response.data;
     }
