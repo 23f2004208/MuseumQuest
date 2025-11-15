@@ -30,7 +30,7 @@ app.get('/api/museums/:id', (req, res) => {
 // AI CHATBOT ENDPOINT
 app.post('/api/ai/ask', async (req, res) => {
     try {
-        const { museumName, museumDescription, question } = req.body;
+        const { museumName, museumDescription, question, userId, museumId } = req.body;
         console.log('🤖 AI Question:', question);
 
         if (!question) return res.status(400).json({ error: 'Question required' });
@@ -40,32 +40,61 @@ app.post('/api/ai/ask', async (req, res) => {
         const result = await model.generateContent(prompt);
         const answer = result.response.text();
 
-            // Award XP for asking AI a question
-const userId = req.body.userId;
-if (userId) {
-    if (!userProgress[userId]) {
-        userProgress[userId] = {
-            stamps: [],
-            xp: 0,
-            level: "Tourist",
-            visitedMuseums: new Set()
-        };
-    }
+        // Track question count and award stamp after 3 questions
+        let questionCount = 0;
+        let stampAwarded = false;
 
-    const xpGained = 20;
+        if (userId) {
+            // Initialize user if doesn't exist
+            if (!userProgress[userId]) {
+                userProgress[userId] = {
+                    stamps: [],
+                    xp: 0,
+                    level: "Tourist",
+                    visitedMuseums: new Set(),
+                    aiQuestionCount: 0
+                };
+            }
 
-    userProgress[userId].xp += xpGained;
-    userProgress[userId].stamps.push({
-        type: "AI_QUESTIONS",
-        museumId: null,
-        timestamp: new Date().toISOString()
-    });
+            // Increment question count
+            userProgress[userId].aiQuestionCount = (userProgress[userId].aiQuestionCount || 0) + 1;
+            questionCount = userProgress[userId].aiQuestionCount;
 
-    console.log(`🧠 Awarded AI question XP to ${userId}`);
-}
+            // Check if AI_QUESTIONS stamp already exists
+            const alreadyHasStamp = userProgress[userId].stamps.some(
+                s => s.type === "AI_QUESTIONS"
+            );
+
+            // Award stamp only after 3 questions and if not already awarded
+            if (questionCount === 3 && !alreadyHasStamp) {
+                const xpGained = 20;
+                userProgress[userId].xp += xpGained;
+                userProgress[userId].stamps.push({
+                    type: "AI_QUESTIONS",
+                    museumId: museumId || null,
+                    timestamp: new Date().toISOString()
+                });
+
+                // Recalculate level
+                const xp = userProgress[userId].xp;
+                if (xp >= 200) userProgress[userId].level = "Museum Legend";
+                else if (xp >= 100) userProgress[userId].level = "Curator";
+                else if (xp >= 50) userProgress[userId].level = "Explorer";
+
+                console.log(`🎉 AI Questions stamp awarded! (+${xpGained} XP) to ${userId} after ${questionCount} questions`);
+                stampAwarded = true;
+            } else if (questionCount < 3) {
+                console.log(`💬 AI question ${questionCount}/3 for ${userId}`);
+            }
+        }
 
         console.log('✅ AI answered');
-        res.json({ answer, museum: museumName });
+        res.json({
+            answer,
+            museum: museumName,
+            questionCount: questionCount,
+            stampAwarded: stampAwarded
+        });
 
     } catch (error) {
         console.error('❌ AI Error:', error.message);
@@ -139,7 +168,8 @@ app.post('/api/passport/stamp', (req, res) => {
             stamps: [],
             xp: 0,
             level: 'Tourist',
-            visitedMuseums: new Set()
+            visitedMuseums: new Set(),
+            aiQuestionCount: 0
         };
     }
 
@@ -198,10 +228,24 @@ app.post('/api/passport/stamp', (req, res) => {
 
 // QUIZ COMPLETION ENDPOINT
 app.post('/api/passport/quiz', (req, res) => {
-    const { userId, museumId } = req.body;
+    const { userId, museumId, score } = req.body;
 
     if (!userId || !museumId) {
         return res.status(400).json({ error: "userId and museumId required" });
+    }
+
+    // Check if score is provided and is 80% or higher
+    if (score === undefined || score === null) {
+        return res.status(400).json({ error: "score is required" });
+    }
+
+    if (score < 0.8) {
+        return res.json({
+            success: false,
+            message: "Quiz not passed. Need 80% or higher to earn stamp.",
+            score: score,
+            requiredScore: 0.8
+        });
     }
 
     const alreadyHasQuiz = userProgress[userId]?.stamps?.some(
@@ -221,7 +265,8 @@ app.post('/api/passport/quiz', (req, res) => {
             stamps: [],
             xp: 0,
             level: "Tourist",
-            visitedMuseums: new Set()
+            visitedMuseums: new Set(),
+            aiQuestionCount: 0
         };
     }
 
@@ -238,10 +283,17 @@ app.post('/api/passport/quiz', (req, res) => {
     else if (xp >= 100) userProgress[userId].level = "Curator";
     else if (xp >= 50) userProgress[userId].level = "Explorer";
 
+    console.log(`✅ Quiz passed! Stamp awarded: QUIZ_PASSED (+25 XP) to ${userId} for museum ${museumId}`);
+
     res.json({
         success: true,
         xpGained: 25,
-        passport: userProgress[userId]
+        newXP: userProgress[userId].xp,
+        level: userProgress[userId].level,
+        passport: {
+            ...userProgress[userId],
+            visitedMuseums: Array.from(userProgress[userId].visitedMuseums)
+        }
     });
 });
 
