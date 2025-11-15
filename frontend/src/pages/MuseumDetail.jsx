@@ -1,10 +1,49 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';  // ADD THIS
 import { museums } from '../data/museums';
+import confetti from 'canvas-confetti';
+import axios from 'axios';
 
 function MuseumDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
     const museum = museums.find(m => m.id === parseInt(id));
+    const [stampAwarded, setStampAwarded] = useState(false);  // ADD THIS
+
+    const userId = "demo-user";  // ADD THIS
+
+    // ADD THIS ENTIRE useEffect
+    useEffect(() => {
+        if (museum && !stampAwarded) {
+            awardStamp('VISITED', museum.id);
+            setStampAwarded(true);
+        }
+    }, [museum]);
+
+    // ADD THIS FUNCTION
+    const awardStamp = async (stampType, museumId) => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/passport/stamp', {
+                userId,
+                stampType,
+                museumId
+            });
+
+            if (response.data.success) {
+                // Celebration!
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+
+                console.log(`🎉 Stamp earned: ${stampType} (+${response.data.xpGained} XP)`);
+                console.log(`Level: ${response.data.level} | Total XP: ${response.data.newXP}`);
+            }
+        } catch (error) {
+            console.error('Error awarding stamp:', error);
+        }
+    };
 
     if (!museum) {
         return (
@@ -49,8 +88,11 @@ function MuseumDetail() {
                 }}>
                     <h5 className="card-title">{museum.name}, {museum.city}, {museum.country}</h5>
                     <p className="card-text">{museum.description}</p>
-                    <a href="#" className="btn btn-primary" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
-                        Go somewhere
+                    <a href="#" className="btn btn-primary" onClick={(e) => {
+                        e.preventDefault();
+                        navigate('/');
+                    }}>
+                        Back to Map
                     </a>
                 </div>
             </div>
@@ -59,4 +101,3 @@ function MuseumDetail() {
 }
 
 export default MuseumDetail;
-
