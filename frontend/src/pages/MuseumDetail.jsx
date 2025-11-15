@@ -1,44 +1,61 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';  // ADD THIS
+import { useEffect, useState } from 'react';
 import { museums } from '../data/museums';
 import confetti from 'canvas-confetti';
-import axios from 'axios';
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { awardStamp } from '../services/firestore';
+import XPNotification from '../components/XPNotification';
 
 function MuseumDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
     const museum = museums.find(m => m.id === parseInt(id));
-    const [stampAwarded, setStampAwarded] = useState(false);  // ADD THIS
+    const [stampAwarded, setStampAwarded] = useState(false);
+    const [xpNotification, setXpNotification] = useState(null);
+    const [user, setUser] = useState(null);
+    const [userLoading, setUserLoading] = useState(true);
 
-    const userId = "demo-user";  // ADD THIS
-
-    // ADD THIS ENTIRE useEffect
     useEffect(() => {
-        if (museum && !stampAwarded) {
-            awardStamp('VISITED', museum.id);
+        // Check authentication state
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setUserLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        if (museum && !stampAwarded && user && !userLoading) {
+            handleAwardStamp('VISITED', museum.id);
             setStampAwarded(true);
         }
-    }, [museum]);
+    }, [museum, user, userLoading]);
 
-    // ADD THIS FUNCTION
-    const awardStamp = async (stampType, museumId) => {
+    const handleAwardStamp = async (stampType, museumId) => {
+        // Check if user is logged in
+        if (!user) {
+            console.error('❌ Error: User is not signed in. Cannot award XP or save data to Firestore.');
+            return;
+        }
+
         try {
-            const response = await axios.post('http://localhost:5000/api/passport/stamp', {
-                userId,
-                stampType,
-                museumId
-            });
+            const xpGained = 10; // VISITED stamp gives 10 XP
+            const result = await awardStamp(user.uid, stampType, museumId, xpGained);
 
-            if (response.data.success) {
-                // Celebration!
+            if (result.success) {
                 confetti({
                     particleCount: 100,
                     spread: 70,
                     origin: { y: 0.6 }
                 });
+                setXpNotification(result.xpGained);
 
-                console.log(`🎉 Stamp earned: ${stampType} (+${response.data.xpGained} XP)`);
-                console.log(`Level: ${response.data.level} | Total XP: ${response.data.newXP}`);
+                console.log(`🎉 Stamp earned: ${stampType} (+${result.xpGained} XP)`);
+                console.log(`Level: ${result.level} | Total XP: ${result.newXP}`);
+            } else {
+                console.log(`ℹ️ ${result.message}`);
             }
         } catch (error) {
             console.error('Error awarding stamp:', error);
@@ -77,6 +94,12 @@ function MuseumDetail() {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
+            {xpNotification && (
+                <XPNotification
+                    xpGained={xpNotification}
+                    onComplete={() => setXpNotification(null)}
+                />
+            )}
             <div className="card" style={{
                 width: '50rem',
                 backgroundColor: 'rgba(0, 0, 0, 0.736)',

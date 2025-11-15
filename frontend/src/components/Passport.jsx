@@ -1,19 +1,38 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import confetti from 'canvas-confetti'; // npm install canvas-confetti
+import { getUserProgress } from '../services/firestore';
 
-function Passport({ userId = "demo-user" }) {
+function Passport({ userId }) {
     const [passport, setPassport] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchPassport();
+        if (userId) {
+            fetchPassport();
+        } else {
+            setLoading(false);
+        }
     }, [userId]);
 
     const fetchPassport = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/passport/${userId}`);
-            setPassport(response.data);
+            const userData = await getUserProgress(userId);
+            if (userData) {
+                // Transform Firestore data to match expected format
+                setPassport({
+                    xp: userData.totalXP || 0,
+                    level: userData.currentLevel || 'Tourist',
+                    stamps: userData.stamps || [],
+                    visitedMuseums: userData.visitedMuseums || []
+                });
+            } else {
+                // User doesn't exist yet, create default passport
+                setPassport({
+                    xp: 0,
+                    level: 'Tourist',
+                    stamps: [],
+                    visitedMuseums: []
+                });
+            }
         } catch (error) {
             console.error('Error fetching passport:', error);
         } finally {
