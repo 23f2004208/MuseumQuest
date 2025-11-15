@@ -6,6 +6,7 @@ import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { awardStamp } from '../services/firestore';
 import XPNotification from '../components/XPNotification';
+import Navigation from '../components/Navigation';
 // Import images for Vite
 import louvreImg from '../data/images/louvre.webp';
 import smithsonianImg from '../data/images/smithsonian.jpg';
@@ -99,7 +100,8 @@ function MuseumDetail() {
     if (!museum) {
         return (
             <div className="museum-detail-container">
-                <div className="card museum-card">
+                
+                <div className="card museum-card" style={{ marginLeft: '20rem' }}>
                     <div className="card-body">
                         <h5 className="card-title">Museum not found</h5>
                         <button onClick={() => navigate('/')} className="btn btn-primary">
@@ -128,6 +130,7 @@ function MuseumDetail() {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
+            <Navigation />
             {xpNotification && (
                 <XPNotification
                     xpGained={xpNotification}
@@ -139,18 +142,29 @@ function MuseumDetail() {
                 backgroundColor: 'rgba(0, 0, 0, 0.736)',
                 color: 'rgb(205, 205, 205)',
             }}>
-                <div className="card-body" style={{
-                    alignItems: 'center',
-                    textAlign: 'justify',
-                }}>
+                <div className="card-body">
                     <h5 className="card-title">{museum.name}, {museum.city}, {museum.country}</h5>
                     <p className="card-text">{museum.description}</p>
-                    <a href="#" className="btn btn-primary" onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/');
-                    }}>
-                        Back to Map
-                    </a>
+                    <div className="flex flex-row justify-evenly w-full gap-4 mt-4">
+                        <a href="#" className="btn btn-primary" onClick={(e) => {
+                            e.preventDefault();
+                            navigate('/');
+                        }}>
+                            Back to Map
+                        </a>
+                        <a href="#" className="btn btn-primary" onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/quiz/${museum.id}`);
+                        }}>
+                            Start Quiz
+                        </a>
+                        <a href="#" className="btn btn-primary" onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/chatbot/${museum.id}`);
+                        }}>
+                            Ask Chatbot
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
