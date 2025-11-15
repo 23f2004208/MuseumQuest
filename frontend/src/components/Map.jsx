@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { museums } from '../data/museums';
@@ -35,6 +35,9 @@ function Map({ onMuseumClick }) {
                         }
                     }}
                 >
+                    <Tooltip direction="top" offset={[0, -20]} opacity={0.9}>
+                        {museum.name}
+                    </Tooltip>
                     <Popup>
                         <div>
                             <h3>{museum.name}</h3>

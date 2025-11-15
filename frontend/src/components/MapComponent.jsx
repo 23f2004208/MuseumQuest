@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { museums } from '../data/museums';
@@ -35,6 +35,11 @@ function MapComponent() {
                             click: () => navigate(`/museum/${museum.id}`)
                         }}
                     >
+                        <Tooltip direction="top" offset={[-15, -15]} opacity={0.9}>
+                            <div className="text-black">
+                                {museum.name}
+                            </div>
+                        </Tooltip>
                         <Popup>
                             <div>
                                 <strong>{museum.name}</strong>
