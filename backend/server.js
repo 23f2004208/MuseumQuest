@@ -40,6 +40,30 @@ app.post('/api/ai/ask', async (req, res) => {
         const result = await model.generateContent(prompt);
         const answer = result.response.text();
 
+            // Award XP for asking AI a question
+const userId = req.body.userId;
+if (userId) {
+    if (!userProgress[userId]) {
+        userProgress[userId] = {
+            stamps: [],
+            xp: 0,
+            level: "Tourist",
+            visitedMuseums: new Set()
+        };
+    }
+
+    const xpGained = 20;
+
+    userProgress[userId].xp += xpGained;
+    userProgress[userId].stamps.push({
+        type: "AI_QUESTIONS",
+        museumId: null,
+        timestamp: new Date().toISOString()
+    });
+
+    console.log(`🧠 Awarded AI question XP to ${userId}`);
+}
+
         console.log('✅ AI answered');
         res.json({ answer, museum: museumName });
 
@@ -171,6 +195,56 @@ app.post('/api/passport/stamp', (req, res) => {
         }
     });
 });
+
+// QUIZ COMPLETION ENDPOINT
+app.post('/api/passport/quiz', (req, res) => {
+    const { userId, museumId } = req.body;
+
+    if (!userId || !museumId) {
+        return res.status(400).json({ error: "userId and museumId required" });
+    }
+
+    const alreadyHasQuiz = userProgress[userId]?.stamps?.some(
+        s => s.type === "QUIZ_PASSED" && s.museumId === museumId
+    );
+
+    if (alreadyHasQuiz) {
+        return res.json({
+            success: false,
+            message: "Quiz stamp already earned",
+            passport: userProgress[userId]
+        });
+    }
+
+    if (!userProgress[userId]) {
+        userProgress[userId] = {
+            stamps: [],
+            xp: 0,
+            level: "Tourist",
+            visitedMuseums: new Set()
+        };
+    }
+
+    userProgress[userId].xp += 25;
+    userProgress[userId].stamps.push({
+        type: "QUIZ_PASSED",
+        museumId,
+        timestamp: new Date().toISOString()
+    });
+
+    // Recalculate level
+    const xp = userProgress[userId].xp;
+    if (xp >= 200) userProgress[userId].level = "Museum Legend";
+    else if (xp >= 100) userProgress[userId].level = "Curator";
+    else if (xp >= 50) userProgress[userId].level = "Explorer";
+
+    res.json({
+        success: true,
+        xpGained: 25,
+        passport: userProgress[userId]
+    });
+});
+
 
 // Get user's passport
 app.get('/api/passport/:userId', (req, res) => {
