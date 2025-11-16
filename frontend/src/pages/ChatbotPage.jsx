@@ -1,12 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { museums } from '../data/museums';
 import confetti from 'canvas-confetti';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { awardStamp } from '../services/firestore';
+import { aiAPI } from '../services/api';
 import XPNotification from '../components/XPNotification';
 import Navigation from '../components/Navigation';
+import './ChatbotPage.css';
 // Import images for Vite
 import louvreImg from '../data/images/louvre.webp';
 import smithsonianImg from '../data/images/smithsonian.jpg';
@@ -50,6 +52,11 @@ function ChatbotPage() {
     const [xpNotification, setXpNotification] = useState(null);
     const [user, setUser] = useState(null);
     const [userLoading, setUserLoading] = useState(true);
+    const [messages, setMessages] = useState([]);
+    const [inputValue, setInputValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const chatContainerRef = useRef(null);
+    const initialMessageSet = useRef(false);
 
     useEffect(() => {
         // Check authentication state
@@ -62,11 +69,29 @@ function ChatbotPage() {
     }, []);
 
     useEffect(() => {
+        // Set initial welcome message when museum is loaded
+        if (museum && !initialMessageSet.current) {
+            setMessages([{
+                type: 'bot',
+                content: `Welcome! I can help you learn about ${museum.name}. What would you like to know?`
+            }]);
+            initialMessageSet.current = true;
+        }
+    }, [museum]);
+
+    useEffect(() => {
         if (museum && !stampAwarded && user && !userLoading) {
             handleAwardStamp('VISITED', museum.id);
             setStampAwarded(true);
         }
     }, [museum, user, userLoading]);
+
+    useEffect(() => {
+        // Auto-scroll to bottom when messages change
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     const handleAwardStamp = async (stampType, museumId) => {
         // Check if user is logged in
@@ -94,6 +119,46 @@ function ChatbotPage() {
             }
         } catch (error) {
             console.error('Error awarding stamp:', error);
+        }
+    };
+
+    const sendMessage = async () => {
+        const message = inputValue.trim();
+
+        if (message === '' || isLoading) return;
+
+        // Add user message
+        setMessages(prev => [...prev, { type: 'user', content: message }]);
+        setInputValue('');
+        setIsLoading(true);
+
+        try {
+            // Call the AI API with museum context
+            const response = await aiAPI.askQuestion(
+                museum.name,
+                museum.description,
+                message
+            );
+
+            // Add bot response
+            setMessages(prev => [...prev, {
+                type: 'bot',
+                content: response.answer || 'Sorry, I could not process your question.'
+            }]);
+        } catch (error) {
+            console.error('Error getting AI response:', error);
+            setMessages(prev => [...prev, {
+                type: 'bot',
+                content: 'Sorry, I am having trouble connecting right now. Please try again later.'
+            }]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
         }
     };
 
@@ -144,10 +209,57 @@ function ChatbotPage() {
                 }}>
                     <div className="card-body" style={{
                         alignItems: 'center',
-                        textAlign: 'justify',
                     }}>
-                        <h5 className="card-title">{museum.name}, {museum.city}, {museum.country}</h5>
-                        <p className="card-text">ADD CHATBOT CONTENT HERE</p>
+                        <h5 className="card-title text-center mb-3">
+                            <i className="bi bi-chat-dots-fill"></i> {museum.name} Assistant
+                        </h5>
+
+                        {/* Chat Messages Container */}
+                        <div className="chat-container" ref={chatContainerRef}>
+                            {messages.map((msg, index) => (
+                                <div key={index} className={`message ${msg.type}`}>
+                                    <div className="message-content">
+                                        <strong>{msg.type === 'bot' ? 'Museum Bot' : 'You'}:</strong><br />
+                                        {msg.content}
+                                    </div>
+                                </div>
+                            ))}
+                            {isLoading && (
+                                <div className="message bot">
+                                    <div className="message-content">
+                                        <strong>Museum Bot:</strong><br />
+                                        <em>Thinking...</em>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Chat Input */}
+                        <div className="input-group">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="userInput"
+                                placeholder="Ask me anything about the museum..."
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    color: 'white',
+                                    border: '1px solid rgba(255, 255, 255, 0.3)'
+                                }}
+                            />
+                            <button
+                                className="btn btn-dark btn-send"
+                                onClick={sendMessage}
+                                disabled={isLoading}
+                            >
+                                <i className="bi bi-send-fill"></i> {isLoading ? 'Sending...' : 'Send'}
+                            </button>
+                        </div>
+
+                        {/* Quick Action Buttons */}
                         <div className="flex flex-row justify-evenly w-full gap-4 mt-4">
                             <a href="#" className="btn btn-primary" onClick={(e) => {
                                 e.preventDefault();

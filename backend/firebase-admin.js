@@ -1,7 +1,14 @@
 import admin from 'firebase-admin';
 import dotenv from 'dotenv';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 dotenv.config();
+
+// Get current directory (needed for ES modules)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Initialize Firebase Admin
 let serviceAccount;
@@ -16,15 +23,14 @@ if (process.env.FIREBASE_CREDENTIALS) {
         throw new Error('Invalid FIREBASE_CREDENTIALS format');
     }
 } else {
-    // Local development - Import JSON file
+    // Local development - Read JSON file synchronously
     try {
-        const module = await import('./serviceAccountKey.json', {
-            assert: { type: 'json' }
-        });
-        serviceAccount = module.default;
+        const filePath = join(__dirname, 'serviceAccountKey.json');
+        const fileContent = readFileSync(filePath, 'utf8');
+        serviceAccount = JSON.parse(fileContent);
         console.log('✅ Using Firebase credentials from local file');
     } catch (error) {
-        console.error('❌ serviceAccountKey.json not found');
+        console.error('❌ serviceAccountKey.json not found or invalid:', error.message);
         throw new Error('No Firebase credentials available');
     }
 }

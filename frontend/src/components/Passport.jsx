@@ -53,7 +53,8 @@ function Passport({ userId }) {
 
     const stampIcons = {
         VISITED: '📍',
-        QUIZ_PASSED: '🧠',
+        QUIZ_PASSED: '⭐',
+        QUIZ_COMPLETED: '⭐',
         AI_QUESTIONS: '💬',
         ALL_IMAGES_VIEWED: '🎨'
     };
@@ -61,6 +62,7 @@ function Passport({ userId }) {
     const stampNames = {
         VISITED: 'Visited',
         QUIZ_PASSED: 'Quiz Master',
+        QUIZ_COMPLETED: 'Quiz Master',
         AI_QUESTIONS: 'Curious Explorer',
         ALL_IMAGES_VIEWED: 'Art Lover'
     };
