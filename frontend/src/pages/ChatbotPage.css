@@ -1,0 +1,138 @@
+/* Chatbot Page Styles */
+
+.chat-container {
+    height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.message {
+    margin-bottom: 15px;
+    display: flex;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.bot {
+    justify-content: flex-start;
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+.message.user .message-content {
+    background-color: rgba(13, 110, 253, 0.8);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.bot .message-content {
+    background-color: rgba(108, 117, 125, 0.8);
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.message-content strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.85em;
+    opacity: 0.9;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.input-group .form-control {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.btn-send {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.btn-send:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-send:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-actions .btn {
+    flex: 1;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar Styling */
+.chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Loading indicator */
+.message.bot em {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
