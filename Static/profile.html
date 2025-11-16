@@ -164,44 +164,52 @@
                 <!-- Achievements Section -->
                 <div>
                     <h4 class="text-white mb-3"><i class="bi bi-flag-fill"></i> Achievements</h4>
-                    <div class="list-group">
-                        <div class="list-group-item d-flex justify-content-between align-items-center" style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
-                            <div>
-                                <h6 class="text-white mb-1">Museum Explorer</h6>
-                                <p class="text-white-50 mb-0 small">Visit 5 museums</p>
-                            </div>
-                            <div class="text-end">
-                                <div class="progress" style="width: 150px; height: 20px;">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5">3/5</div>
+                    
+                    <!-- Level Progression -->
+                    <div class="card mb-4" style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                        <div class="card-body">
+                            <h6 class="text-white mb-3">Level Progression</h6>
+                            <div class="d-flex justify-content-between align-items-center position-relative" style="padding: 20px 0;">
+                                <!-- Progress Line -->
+                                <div class="position-absolute" style="top: 50%; left: 10%; right: 10%; height: 4px; background-color: rgba(255, 255, 255, 0.2); z-index: 1;">
+                                    <div style="height: 100%; width: 33%; background-color: #0dcaf0;"></div>
                                 </div>
-                                <small class="text-white-50">Reward: Explorer Badge</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center mt-2" style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
-                            <div>
-                                <h6 class="text-white mb-1">World Traveler</h6>
-                                <p class="text-white-50 mb-0 small">Visit 10 museums</p>
-                            </div>
-                            <div class="text-end">
-                                <div class="progress" style="width: 150px; height: 20px;">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 30%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">3/10</div>
+                                
+                                <!-- Level Circles -->
+                                <div class="d-flex justify-content-between w-100 position-relative" style="z-index: 2;">
+                                    <div class="text-center" style="flex: 1;">
+                                        <div class="mx-auto rounded-circle bg-success d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid #fff;">
+                                            <i class="bi bi-check-lg text-white fs-4"></i>
+                                        </div>
+                                        <small class="text-white mt-2 d-block fw-bold">Tourist</small>
+                                        <small class="text-white-50 d-block">0 XP</small>
+                                    </div>
+                                    <div class="text-center" style="flex: 1;">
+                                        <div class="mx-auto rounded-circle bg-info d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid #fff; box-shadow: 0 0 15px rgba(13, 202, 240, 0.5);">
+                                            <i class="bi bi-star-fill text-white fs-4"></i>
+                                        </div>
+                                        <small class="text-white mt-2 d-block fw-bold">Explorer</small>
+                                        <small class="text-success d-block">Current (105 XP)</small>
+                                    </div>
+                                    <div class="text-center" style="flex: 1;">
+                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1);">
+                                            <i class="bi bi-lock-fill text-white-50 fs-4"></i>
+                                        </div>
+                                        <small class="text-white-50 mt-2 d-block">Curator</small>
+                                        <small class="text-white-50 d-block">250 XP</small>
+                                    </div>
+                                    <div class="text-center" style="flex: 1;">
+                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1);">
+                                            <i class="bi bi-lock-fill text-white-50 fs-4"></i>
+                                        </div>
+                                        <small class="text-white-50 mt-2 d-block">Museum Legend</small>
+                                        <small class="text-white-50 d-block">500 XP</small>
+                                    </div>
                                 </div>
-                                <small class="text-white-50">Reward: Gold Passport</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center mt-2" style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
-                            <div>
-                                <h6 class="text-white mb-1">Completionist</h6>
-                                <p class="text-white-50 mb-0 small">Collect all stamp types</p>
-                            </div>
-                            <div class="text-end">
-                                <div class="progress" style="width: 150px; height: 20px;">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 80%;" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5">4/5</div>
-                                </div>
-                                <small class="text-white-50">Reward: Master Badge</small>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
 
             </div>
