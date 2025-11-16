@@ -17,6 +17,12 @@ function Navigation() {
                     onClick={() => navigate('/')}
                     className="text-white text-xl font-medium text-left py-3 px-4 rounded-lg transition-all duration-300 hover:bg-white/10 active:scale-95"
                 >
+                    🚀 Landing
+                </button>
+                <button
+                    onClick={() => navigate('/home')}
+                    className="text-white text-xl font-medium text-left py-3 px-4 rounded-lg transition-all duration-300 hover:bg-white/10 active:scale-95"
+                >
                     🏠 Home
                 </button>
                 <button

@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
+import Landing from './pages/Landing';
 import MuseumCard from './pages/MuseumDetail';
 import './App.css';
 import PassportPage from './pages/PassportPage';
@@ -12,7 +13,8 @@ import Leaderboard from './pages/Leaderboard';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/museum/:id" element={<MuseumCard />} />
       <Route path="/passport" element={<PassportPage />} />
       <Route path="/passport/:userId" element={<PassportPage />} />

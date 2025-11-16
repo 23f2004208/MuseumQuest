@@ -19,7 +19,7 @@ function MapComponent() {
         <div style={{ height: '100%', width: '100%' }}>
             <MapContainer
                 center={[20, 0]}
-                zoom={2}
+                zoom={3}
                 style={{ height: '100%', width: '100%' }}
             >
                 <TileLayer
