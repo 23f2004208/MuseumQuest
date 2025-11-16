@@ -7,7 +7,6 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { awardStamp } from '../services/firestore';
 import XPNotification from '../components/XPNotification';
 import Navigation from '../components/Navigation';
-import Navigation from '../components/Navigation';
 // Import images for Vite
 import louvreImg from '../data/images/louvre.webp';
 import smithsonianImg from '../data/images/smithsonian.jpg';
