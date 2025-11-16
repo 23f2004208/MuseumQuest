@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { auth } from '../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { getUserProgress } from '../services/firestore';
+import { onAuthStateChanged, signOut, updateEmail, deleteUser, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+import { getUserProgress, updateUserProfile, deleteUserProfile } from '../services/firestore';
 import { museums } from '../data/museums';
 import Navigation from '../components/Navigation';
 import DefaultProfileIcon from '../components/DefaultProfileIcon';
@@ -16,6 +16,10 @@ function PassportPage() {
     const [userData, setUserData] = useState(null);
     const [dataLoading, setDataLoading] = useState(true);
     const [museumsCollapse, setMuseumsCollapse] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editFormData, setEditFormData] = useState({ username: '', email: '' });
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -40,7 +44,98 @@ function PassportPage() {
     }, []);
 
     const editProfile = () => {
-        alert('Edit profile functionality coming soon!');
+        setEditFormData({ username: username, email: email });
+        setShowEditModal(true);
+    };
+
+    const handleUpdateProfile = async (e) => {
+        e.preventDefault();
+        setIsUpdating(true);
+
+        try {
+            // Update Firestore username
+            await updateUserProfile(user.uid, { username: editFormData.username });
+
+            // Update Firebase Auth email if changed
+            if (editFormData.email !== email) {
+                await updateEmail(user, editFormData.email);
+            }
+
+            // Refresh user data
+            const progress = await getUserProgress(user.uid);
+            setUserData(progress);
+            
+            setShowEditModal(false);
+            alert('Profile updated successfully!');
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            alert(`Failed to update profile: ${error.message}`);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
+    const handleDeleteProfile = async () => {
+        const confirmation = window.confirm(
+            '⚠️ WARNING: This will permanently delete your profile and all progress!\n\n' +
+            'This includes:\n' +
+            '• All XP and levels\n' +
+            '• Museum stamps\n' +
+            '• Visited museums history\n' +
+            '• Your account credentials\n\n' +
+            'Are you sure you want to continue?'
+        );
+
+        if (!confirmation) return;
+
+        const doubleConfirm = window.prompt(
+            'Type "DELETE" (in capital letters) to confirm account deletion:'
+        );
+
+        if (doubleConfirm !== 'DELETE') {
+            alert('Account deletion cancelled.');
+            return;
+        }
+
+        // Request password for re-authentication
+        const password = window.prompt(
+            'For security, please enter your password to confirm deletion:'
+        );
+
+        if (!password) {
+            alert('Account deletion cancelled. Password is required.');
+            return;
+        }
+
+        setIsDeleting(true);
+
+        try {
+            // Re-authenticate the user first
+            const credential = EmailAuthProvider.credential(user.email, password);
+            await reauthenticateWithCredential(user, credential);
+
+            // Delete user data from Firestore
+            await deleteUserProfile(user.uid);
+
+            // Delete Firebase Auth account
+            await deleteUser(user);
+
+            // Sign out and redirect
+            alert('Your profile has been deleted successfully.');
+            navigate('/');
+        } catch (error) {
+            console.error('Error deleting profile:', error);
+            
+            if (error.code === 'auth/wrong-password') {
+                alert('Incorrect password. Account deletion cancelled.');
+            } else if (error.code === 'auth/too-many-requests') {
+                alert('Too many failed attempts. Please try again later.');
+            } else {
+                alert(`Failed to delete profile: ${error.message}`);
+            }
+            
+            setIsDeleting(false);
+        }
     };
 
     if (userLoading || dataLoading) {
@@ -511,6 +606,127 @@ function PassportPage() {
                 </div>
 
             </div>
+
+            {/* Edit Profile Modal */}
+            {showEditModal && (
+                <div 
+                    className="modal show d-block" 
+                    tabIndex="-1" 
+                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+                    onClick={(e) => {
+                        if (e.target.className.includes('modal')) {
+                            setShowEditModal(false);
+                        }
+                    }}
+                >
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content" style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)', border: '2px solid rgba(255, 255, 255, 0.2)' }}>
+                            <div className="modal-header border-bottom border-secondary">
+                                <h5 className="modal-title text-white">
+                                    <i className="bi bi-pencil-square"></i> Edit Profile
+                                </h5>
+                                <button 
+                                    type="button" 
+                                    className="btn-close btn-close-white" 
+                                    onClick={() => setShowEditModal(false)}
+                                    disabled={isUpdating}
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <form onSubmit={handleUpdateProfile}>
+                                    <div className="mb-3">
+                                        <label htmlFor="editUsername" className="form-label text-white">
+                                            <i className="bi bi-person"></i> Username
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="editUsername"
+                                            value={editFormData.username}
+                                            onChange={(e) => setEditFormData({ ...editFormData, username: e.target.value })}
+                                            required
+                                            disabled={isUpdating}
+                                            style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.3)' }}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="editEmail" className="form-label text-white">
+                                            <i className="bi bi-envelope"></i> Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            id="editEmail"
+                                            value={editFormData.email}
+                                            onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                                            required
+                                            disabled={isUpdating}
+                                            style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.3)' }}
+                                        />
+                                        <div className="form-text text-white-50">
+                                            <i className="bi bi-info-circle"></i> Changing email may require re-authentication
+                                        </div>
+                                    </div>
+                                    <div className="d-flex gap-2">
+                                        <button 
+                                            type="submit" 
+                                            className="btn btn-primary flex-grow-1"
+                                            disabled={isUpdating}
+                                        >
+                                            {isUpdating ? (
+                                                <>
+                                                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                    Updating...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <i className="bi bi-check-lg"></i> Save Changes
+                                                </>
+                                            )}
+                                        </button>
+                                        <button 
+                                            type="button" 
+                                            className="btn btn-secondary"
+                                            onClick={() => setShowEditModal(false)}
+                                            disabled={isUpdating}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                                
+                                <hr className="border-danger my-4" />
+                                
+                                <div className="text-center">
+                                    <h6 className="text-danger mb-3">
+                                        <i className="bi bi-exclamation-triangle-fill"></i> Danger Zone
+                                    </h6>
+                                    <p className="text-white-50 small mb-3">
+                                        Permanently delete your account and all associated data. This action cannot be undone.
+                                    </p>
+                                    <button 
+                                        type="button" 
+                                        className="btn btn-danger"
+                                        onClick={handleDeleteProfile}
+                                        disabled={isDeleting || isUpdating}
+                                    >
+                                        {isDeleting ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Deleting...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <i className="bi bi-trash"></i> Delete Account
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

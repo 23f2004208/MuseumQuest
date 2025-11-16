@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 
 /**
  * Get user progress data from Firestore
@@ -141,3 +141,36 @@ export async function awardStamp(userId, stampType, museumId, xpGained) {
     }
 }
 
+/**
+ * Update user profile information
+ * @param {string} userId - User's UUID
+ * @param {Object} profileData - Profile data to update (username, email, etc.)
+ * @returns {Promise<void>}
+ */
+export async function updateUserProfile(userId, profileData) {
+    try {
+        const userRef = doc(db, 'users', userId);
+        await updateDoc(userRef, {
+            ...profileData,
+            lastUpdated: serverTimestamp()
+        });
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        throw error;
+    }
+}
+
+/**
+ * Delete user profile from Firestore
+ * @param {string} userId - User's UUID
+ * @returns {Promise<void>}
+ */
+export async function deleteUserProfile(userId) {
+    try {
+        const userRef = doc(db, 'users', userId);
+        await deleteDoc(userRef);
+    } catch (error) {
+        console.error('Error deleting user profile:', error);
+        throw error;
+    }
+}
