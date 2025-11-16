@@ -163,47 +163,83 @@
 
                 <!-- Achievements Section -->
                 <div>
-                    <h4 class="text-white mb-3"><i class="bi bi-flag-fill"></i> Achievements</h4>
+                    <h4 class="text-white mb-4">
+                        <i class="bi bi-trophy-fill text-warning"></i> Achievements
+                    </h4>
                     
                     <!-- Level Progression -->
-                    <div class="card mb-4" style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
-                        <div class="card-body">
-                            <h6 class="text-white mb-3">Level Progression</h6>
-                            <div class="d-flex justify-content-between align-items-center position-relative" style="padding: 20px 0;">
+                    <div class="card mb-4" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(13, 202, 240, 0.15)); border: 2px solid rgba(13, 202, 240, 0.3); box-shadow: 0 4px 15px rgba(13, 202, 240, 0.2);">
+                        <div class="card-body p-4">
+                            <h5 class="text-white mb-4 text-center">
+                                <i class="bi bi-graph-up-arrow text-info"></i> Level Progression
+                            </h5>
+                            <div class="d-flex justify-content-between align-items-center position-relative" style="padding: 30px 0;">
                                 <!-- Progress Line -->
-                                <div class="position-absolute" style="top: 50%; left: 10%; right: 10%; height: 4px; background-color: rgba(255, 255, 255, 0.2); z-index: 1;">
-                                    <div style="height: 100%; width: 33%; background-color: #0dcaf0;"></div>
+                                <div class="position-absolute" style="top: 50%; left: 8%; right: 8%; height: 6px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2)); z-index: 1; border-radius: 10px;">
+                                    <div style="height: 100%; width: 33%; background: linear-gradient(90deg, #20c997, #0dcaf0); border-radius: 10px; box-shadow: 0 0 10px rgba(13, 202, 240, 0.5);"></div>
                                 </div>
                                 
                                 <!-- Level Circles -->
                                 <div class="d-flex justify-content-between w-100 position-relative" style="z-index: 2;">
+                                    <!-- Tourist -->
                                     <div class="text-center" style="flex: 1;">
-                                        <div class="mx-auto rounded-circle bg-success d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid #fff;">
-                                            <i class="bi bi-check-lg text-white fs-4"></i>
+                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 75px; height: 75px; background: linear-gradient(135deg, #20c997, #198754); border: 4px solid #fff; box-shadow: 0 4px 15px rgba(32, 201, 151, 0.4);">
+                                            <i class="bi bi-check-lg text-white fs-3"></i>
                                         </div>
-                                        <small class="text-white mt-2 d-block fw-bold">Tourist</small>
+                                        <small class="text-white mt-2 d-block fw-bold" style="font-size: 0.9rem;">Tourist</small>
+                                        <small class="text-success d-block fw-semibold">✓ Completed</small>
                                         <small class="text-white-50 d-block">0 XP</small>
                                     </div>
+                                    
+                                    <!-- Explorer (Current) -->
                                     <div class="text-center" style="flex: 1;">
-                                        <div class="mx-auto rounded-circle bg-info d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid #fff; box-shadow: 0 0 15px rgba(13, 202, 240, 0.5);">
-                                            <i class="bi bi-star-fill text-white fs-4"></i>
+                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center position-relative" style="width: 85px; height: 85px; background: linear-gradient(135deg, #0dcaf0, #0d6efd); border: 5px solid #fff; box-shadow: 0 0 25px rgba(13, 202, 240, 0.8), 0 0 50px rgba(13, 202, 240, 0.4); animation: pulse 2s infinite;">
+                                            <i class="bi bi-star-fill text-white fs-2"></i>
+                                            <div class="position-absolute" style="top: -10px; right: -10px; width: 30px; height: 30px; background: linear-gradient(135deg, #ffc107, #fd7e14); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff;">
+                                                <i class="bi bi-lightning-fill text-white" style="font-size: 0.8rem;"></i>
+                                            </div>
                                         </div>
-                                        <small class="text-white mt-2 d-block fw-bold">Explorer</small>
-                                        <small class="text-success d-block">Current (105 XP)</small>
+                                        <small class="text-white mt-2 d-block fw-bold" style="font-size: 1rem;">Explorer</small>
+                                        <small class="d-block" style="color: #0dcaf0; font-weight: bold; text-shadow: 0 0 10px rgba(13, 202, 240, 0.5);">★ Current Level</small>
+                                        <small class="text-warning d-block fw-semibold">105 XP</small>
                                     </div>
+                                    
+                                    <!-- Curator (Locked) -->
                                     <div class="text-center" style="flex: 1;">
-                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1);">
-                                            <i class="bi bi-lock-fill text-white-50 fs-4"></i>
+                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 75px; height: 75px; background: linear-gradient(135deg, rgba(108, 117, 125, 0.3), rgba(73, 80, 87, 0.3)); border: 4px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+                                            <i class="bi bi-lock-fill text-white-50 fs-3"></i>
                                         </div>
-                                        <small class="text-white-50 mt-2 d-block">Curator</small>
-                                        <small class="text-white-50 d-block">250 XP</small>
+                                        <small class="text-white-50 mt-2 d-block fw-semibold" style="font-size: 0.9rem;">Curator</small>
+                                        <small class="text-white-50 d-block">🔒 Locked</small>
+                                        <small class="text-warning d-block">250 XP</small>
                                     </div>
+                                    
+                                    <!-- Museum Legend (Locked) -->
                                     <div class="text-center" style="flex: 1;">
-                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 3px solid rgba(255, 255, 255, 0.3); background-color: rgba(255, 255, 255, 0.1);">
-                                            <i class="bi bi-lock-fill text-white-50 fs-4"></i>
+                                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 75px; height: 75px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 152, 0, 0.2)); border: 4px solid rgba(255, 193, 7, 0.3); box-shadow: 0 4px 10px rgba(255, 193, 7, 0.2);">
+                                            <i class="bi bi-trophy-fill text-warning fs-3" style="opacity: 0.4;"></i>
                                         </div>
-                                        <small class="text-white-50 mt-2 d-block">Museum Legend</small>
-                                        <small class="text-white-50 d-block">500 XP</small>
+                                        <small class="text-warning mt-2 d-block fw-semibold" style="font-size: 0.9rem;">Museum Legend</small>
+                                        <small class="text-white-50 d-block">🔒 Locked</small>
+                                        <small class="text-warning d-block">500 XP</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress Stats -->
+                            <div class="mt-4 pt-3 border-top border-secondary">
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <h6 class="text-info mb-1">105 / 250</h6>
+                                        <small class="text-white-50">Next Level</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6 class="text-success mb-1">145 XP</h6>
+                                        <small class="text-white-50">Remaining</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6 class="text-warning mb-1">42%</h6>
+                                        <small class="text-white-50">Progress</small>
                                     </div>
                                 </div>
                             </div>
@@ -211,6 +247,17 @@
                     </div>
                     
                 </div>
+                
+                <style>
+                    @keyframes pulse {
+                        0%, 100% {
+                            transform: scale(1);
+                        }
+                        50% {
+                            transform: scale(1.05);
+                        }
+                    }
+                </style>
 
             </div>
         </div>
