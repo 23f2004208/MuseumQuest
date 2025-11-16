@@ -18,7 +18,7 @@
         }
     </style>
 </head>
-<body style="background-color: #552c20; background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh; padding: 40px 0;">
+<body style="background-image: url('profile map2.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh; padding: 40px 0;">
     <div class="container" style="max-width: 1200px;">
         
         <!-- Profile Info Container -->
@@ -42,7 +42,10 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="text-white-50 small">Level</label>
-                                <p class="text-white h5" id="userLevel">Explorer</p>
+                                <p class="text-white h5" id="userLevel">
+                                    <span class="badge bg-info text-dark">Explorer</span>
+                                </p>
+                                <small class="text-white-50">Tourist → Explorer → Curator → Museum Legend</small>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -58,7 +61,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="text-white-50 small">Total XP</label>
-                                <p class="text-white"><span class="badge bg-warning text-dark fs-6">1,250 XP</span></p>
+                                <p class="text-white"><span class="badge bg-warning text-dark fs-6">105 XP</span></p>
+                                <small class="text-white-50">+10 per museum visit | +25 per quiz passed</small>
                             </div>
                         </div>
                     </div>
@@ -118,41 +122,42 @@
 
                 <!-- Stamps Collected Section -->
                 <div class="mb-5">
-                    <h4 class="text-white mb-3"><i class="bi bi-stamp"></i> Stamps Collected</h4>
+                    <h4 class="text-white mb-3"><i class="bi bi-stamp"></i> Museum Stamps</h4>
+                    <p class="text-white-50 small mb-3">Collect 1 stamp per museum by passing its quiz</p>
                     <div class="d-flex flex-wrap gap-3 justify-content-center">
                         <div class="text-center" style="width: 90px;">
                             <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
-                                <i class="bi bi-trophy-fill text-white fs-3"></i>
+                                <i class="bi bi-building-fill text-white fs-3"></i>
                             </div>
-                            <small class="text-white mt-1 d-block">Visitor</small>
+                            <small class="text-white mt-1 d-block">Calico Museum</small>
                         </div>
                         <div class="text-center" style="width: 90px;">
                             <div class="rounded-circle bg-success d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
-                                <i class="bi bi-star-fill text-white fs-3"></i>
+                                <i class="bi bi-building-fill text-white fs-3"></i>
                             </div>
-                            <small class="text-white mt-1 d-block">Quiz Master</small>
+                            <small class="text-white mt-1 d-block">National Museum</small>
                         </div>
                         <div class="text-center" style="width: 90px;">
                             <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
-                                <span class="text-white fs-3 fw-bold">A</span>
+                                <i class="bi bi-building-fill text-white fs-3"></i>
                             </div>
-                            <small class="text-white mt-1 d-block">Curious Explorer</small>
-                        </div>
-                        <div class="text-center" style="width: 90px;">
-                            <div class="rounded-circle bg-danger d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
-                                <i class="bi bi-palette-fill text-white fs-3"></i>
-                            </div>
-                            <small class="text-white mt-1 d-block">Art Lover</small>
+                            <small class="text-white mt-1 d-block">Science Museum</small>
                         </div>
                         <div class="text-center" style="width: 90px;">
                             <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background-color: rgba(255, 255, 255, 0.1); border: 2px dashed rgba(255, 255, 255, 0.3);">
                                 <i class="bi bi-lock-fill text-white-50 fs-3"></i>
                             </div>
-                            <small class="text-white-50 mt-1 d-block">Locked</small>
+                            <small class="text-white-50 mt-1 d-block">Not Visited</small>
+                        </div>
+                        <div class="text-center" style="width: 90px;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background-color: rgba(255, 255, 255, 0.1); border: 2px dashed rgba(255, 255, 255, 0.3);">
+                                <i class="bi bi-lock-fill text-white-50 fs-3"></i>
+                            </div>
+                            <small class="text-white-50 mt-1 d-block">Not Visited</small>
                         </div>
                     </div>
                     <div class="text-center mt-3">
-                        <p class="text-white"><strong>Stamps Collected:</strong> <span class="badge bg-success">4 / 5</span></p>
+                        <p class="text-white"><strong>Museum Stamps Collected:</strong> <span class="badge bg-success">3 / 10</span></p>
                     </div>
                 </div>
 
