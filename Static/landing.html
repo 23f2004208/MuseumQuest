@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuseumQuest - Explore History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-image: url('image.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .hero-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(85, 44, 32, 0.75));
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card {
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(85, 44, 32, 0.5);
+            border-color: #552c20;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #552c20, #6d3826);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(85, 44, 32, 0.4);
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #552c20, #6d3826);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(85, 44, 32, 0.4);
+        }
+        
+        .btn-primary-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(85, 44, 32, 0.6);
+        }
+        
+        .btn-secondary-custom {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary-custom:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(13, 202, 240, 0.5);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .stat-card {
+            background: rgba(13, 202, 240, 0.2);
+            border: 2px solid rgba(13, 202, 240, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-compass-fill text-info"></i> MuseumQuest
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light rounded-pill px-4 ms-2" href="profile.html" style="border: 2px solid #552c20; color: white; background: linear-gradient(135deg, rgba(85, 44, 32, 0.3), rgba(109, 56, 38, 0.3));">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section animate-fade-in">
+        <div class="container">
+            <div class="hero-card p-5 text-center">
+                <h1 class="display-2 fw-bold text-white mb-4 glow-text">
+                    <i class="bi bi-building text-warning"></i> MuseumQuest
+                </h1>
+                <p class="lead text-white-50 mb-4" style="font-size: 1.5rem;">
+                    Embark on an Interactive Journey Through History
+                </p>
+                <p class="text-white mb-5" style="font-size: 1.1rem;">
+                    Explore museums, earn XP, collect stamps, and unlock achievements as you discover the world's greatest cultural treasures.
+                </p>
+                
+                <!-- Stats -->
+                <div class="row g-3 mb-5">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h2 class="text-info fw-bold mb-0">10+</h2>
+                            <p class="text-white-50 mb-0">Museums</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h2 class="text-success fw-bold mb-0">100+</h2>
+                            <p class="text-white-50 mb-0">Artifacts</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h2 class="text-warning fw-bold mb-0">50+</h2>
+                            <p class="text-white-50 mb-0">Quizzes</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="index.html" class="btn btn-primary-custom">
+                        <i class="bi bi-play-circle-fill"></i> Start Exploring
+                    </a>
+                    <a href="#features" class="btn btn-secondary-custom">
+                        <i class="bi bi-info-circle"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5" style="background-color: rgba(0, 0, 0, 0.7);">
+        <div class="container">
+            <h2 class="text-center text-white fw-bold mb-5 display-5">
+                <i class="bi bi-stars text-warning"></i> Features
+            </h2>
+            <div class="row g-4">
+                <!-- Feature 1 -->
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-geo-alt-fill text-white fs-1"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Virtual Museum Tours</h4>
+                        <p class="text-white-50">
+                            Explore museums from around the world with detailed information about exhibits and artifacts.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-trophy-fill text-white fs-1"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Earn XP & Level Up</h4>
+                        <p class="text-white-50">
+                            Gain experience points by visiting museums and passing quizzes. Progress from Tourist to Museum Legend!
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-patch-check-fill text-white fs-1"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Collect Museum Stamps</h4>
+                        <p class="text-white-50">
+                            Complete quizzes to earn unique stamps for each museum in your virtual passport collection.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-chat-dots-fill text-white fs-1"></i>
+                        </div>
+                        <h4 class="text-white mb-3">AI Museum Assistant</h4>
+                        <p class="text-white-50">
+                            Get instant answers to your questions with our intelligent chatbot guide for each museum.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-question-circle-fill text-white fs-1"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Interactive Quizzes</h4>
+                        <p class="text-white-50">
+                            Test your knowledge with engaging quizzes and track your progress with timed challenges.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="col-md-4">
+                    <div class="feature-card p-4 text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up-arrow text-white fs-1"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Track Your Progress</h4>
+                        <p class="text-white-50">
+                            Monitor your achievements, completed museums, and level progression in your personalized profile.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5" style="background: linear-gradient(135deg, rgba(85, 44, 32, 0.8), rgba(0, 0, 0, 0.9));">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="text-white fw-bold mb-4 display-5">
+                        <i class="bi bi-book-fill text-info"></i> About MuseumQuest
+                    </h2>
+                    <p class="text-white-50 fs-5 mb-4">
+                        MuseumQuest is an innovative platform that transforms museum exploration into an engaging, gamified experience. Whether you're a history enthusiast, art lover, or curious learner, our platform makes discovering cultural heritage fun and rewarding.
+                    </p>
+                    <p class="text-white-50 fs-5 mb-4">
+                        Join thousands of explorers on a journey through time and culture. Collect stamps, complete challenges, and become a Museum Legend!
+                    </p>
+                    <a href="index.html" class="btn btn-primary-custom">
+                        <i class="bi bi-rocket-takeoff-fill"></i> Begin Your Journey
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card" style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.2);">
+                        <div class="card-body p-4">
+                            <h5 class="text-white mb-4">
+                                <i class="bi bi-award-fill text-warning"></i> Level System
+                            </h5>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-white"><i class="bi bi-star-fill text-success"></i> Tourist (0 XP)</span>
+                                    <span class="text-success">Start Here</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-white"><i class="bi bi-star-fill text-info"></i> Explorer (100 XP)</span>
+                                    <span class="text-info">+25 per quiz</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-white"><i class="bi bi-star-fill text-warning"></i> Curator (250 XP)</span>
+                                    <span class="text-warning">Advanced</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-white"><i class="bi bi-trophy-fill text-danger"></i> Museum Legend (500 XP)</span>
+                                    <span class="text-danger">Master</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4" style="background-color: rgba(0, 0, 0, 0.9);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="text-white-50 mb-0">
+                        <i class="bi bi-compass-fill text-info"></i> © 2025 MuseumQuest. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white-50 me-3"><i class="bi bi-facebook fs-5"></i></a>
+                    <a href="#" class="text-white-50 me-3"><i class="bi bi-twitter fs-5"></i></a>
+                    <a href="#" class="text-white-50 me-3"><i class="bi bi-instagram fs-5"></i></a>
+                    <a href="#" class="text-white-50"><i class="bi bi-youtube fs-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
