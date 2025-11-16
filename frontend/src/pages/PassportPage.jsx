@@ -8,6 +8,8 @@ import Navigation from '../components/Navigation';
 import DefaultProfileIcon from '../components/DefaultProfileIcon';
 
 function PassportPage() {
+    // Get background image URL without direct import
+    const backgroundImageUrl = new URL('../assets/background.jpg', import.meta.url).href;
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [userLoading, setUserLoading] = useState(true);
@@ -45,7 +47,7 @@ function PassportPage() {
         return (
             <div style={{
                 minHeight: '100vh',
-                backgroundImage: "url('profile map2.jpg')",
+                backgroundImage: `url(${backgroundImageUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -67,7 +69,7 @@ function PassportPage() {
         return (
             <div style={{
                 minHeight: '100vh',
-                backgroundImage: "url('profile map2.jpg')",
+                backgroundImage: `url(${backgroundImageUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -143,7 +145,7 @@ function PassportPage() {
     return (
         <div style={{
             minHeight: '100vh',
-            backgroundImage: "url('profile map2.jpg')",
+            backgroundImage: `url(${backgroundImageUrl})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

@@ -4,7 +4,11 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import './Login.css';
 
+
 function Login() {
+    // Get background image URL without direct import
+    const backgroundImageUrl = new URL('../assets/background.jpg', import.meta.url).href;
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -23,7 +27,13 @@ function Login() {
     };
 
     return (
-        <div className="login-container">
+        <div className="login-container" style={{ 
+            backgroundImage: `url(${backgroundImageUrl})`, 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center', 
+            backgroundRepeat: 'no-repeat',
+            height: '100vh',
+            width: '100%' }}>
             <form className="login-form" onSubmit={handleLogin}>
                 <h2>Login</h2>
 
