@@ -1,13 +1,10 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000/api';
-const API_URL = import.meta.env.PROD
+const baseURL = import.meta.env.PROD
     ? 'https://museumquest-backend.onrender.com/api'
     : 'http://localhost:5000/api';
 
-// Use API_URL for all requests instead of API_BASE
-const baseURL = API_URL;
-
+// Museums API
 export const museumsAPI = {
     getAll: async () => {
         const response = await axios.get(`${baseURL}/museums`);
@@ -22,12 +19,12 @@ export const museumsAPI = {
 export const quizAPI = {
     // Get quiz questions for a specific museum (without correct answers)
     getQuiz: async (museumId) => {
-        const response = await axios.get(`${baseURL}/quiz/${museumId}`);
+        const response = await axios.get(`${baseURL}/quiz/${museumId}`); 
         return response.data;
     },
     // Submit quiz answers for checking
     checkAnswers: async (museumId, answers) => {
-        const response = await axios.post(`${baseURL}/quiz/check`, {
+        const response = await axios.post(`${baseURL}/quiz/check`, { 
             museumId,
             answers
         });
@@ -38,12 +35,12 @@ export const quizAPI = {
 export const passportAPI = {
     // Get user's passport data
     getPassport: async (userId) => {
-        const response = await axios.get(`${baseURL}/passport/${userId}`);
+        const response = await axios.get(`${baseURL}/passport/${userId}`); 
         return response.data;
     },
     // Award a stamp (VISITED, QUIZ_PASSED, etc.)
     awardStamp: async (userId, stampType, museumId, username = null) => {
-        const response = await axios.post(`${baseURL}/passport/stamp`, {
+        const response = await axios.post(`${baseURL}/passport/stamp`, {  
             userId,
             stampType,
             museumId,
@@ -53,7 +50,7 @@ export const passportAPI = {
     },
     // Award quiz completion stamp
     completeQuiz: async (userId, museumId, score) => {
-        const response = await axios.post(`${baseURL}/passport/quiz`, {
+        const response = await axios.post(`${baseURL}/passport/quiz`, {  
             userId,
             museumId,
             score
@@ -72,7 +69,7 @@ export const leaderboardAPI = {
 export const aiAPI = {
     // Ask AI chatbot a question about a museum
     askQuestion: async (museumName, museumDescription, question) => {
-        const response = await axios.post(`${baseURL}/ai/ask`, {
+        const response = await axios.post(`${baseURL}/ai/ask`, {  // Fixed
             museumName,
             museumDescription,
             question
@@ -81,7 +78,7 @@ export const aiAPI = {
     },
     // List available AI models
     listModels: async () => {
-        const response = await axios.get(`${baseURL}/models/list`);
+        const response = await axios.get(`${baseURL}/models/list`);  // Fixed
         return response.data;
     }
 };
@@ -89,7 +86,7 @@ export const aiAPI = {
 export const wolframAPI = {
     // Get historical context for a year
     getContext: async (year) => {
-        const response = await axios.get(`${baseURL}/wolfram/context/${year}`);
+        const response = await axios.get(`${baseURL}/wolfram/context/${year}`);  // Fixed
         return response.data;
     }
 };
@@ -97,7 +94,7 @@ export const wolframAPI = {
 export const healthAPI = {
     // Check API health status
     check: async () => {
-        const response = await axios.get(`${baseURL}/health`);
+        const response = await axios.get(`${baseURL}/health`);  // Fixed
         return response.data;
     }
 };
@@ -105,11 +102,11 @@ export const healthAPI = {
 // Legacy auth API (keeping for backward compatibility)
 export const authAPI = {
     login: async (email, password) => {
-        const response = await axios.post(`${baseURL}/auth/login`, { email, password });
+        const response = await axios.post(`${baseURL}/auth/login`, { email, password });  // Fixed
         return response.data;
     },
     register: async (email, password) => {
-        const response = await axios.post(`${baseURL}/auth/register`, { email, password });
+        const response = await axios.post(`${baseURL}/auth/register`, { email, password });  // Fixed
         return response.data;
     }
 };
